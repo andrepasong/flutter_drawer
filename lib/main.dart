@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'drawer_menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Navigation Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
       home: const MainScreen(),
     );
   }
@@ -71,75 +69,30 @@ class _MainScreenState extends State<MainScreen> {
             top: 0,
             bottom: 0,
             width: MediaQuery.of(context).size.width,
-            child: Container(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  SizedBox(
-                    height: 100, // Fixed height for the header
-                    child: const DrawerHeader(
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple,
-                      ),
-                      margin: EdgeInsets.zero,
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          'Menu Drawer',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  ...List.generate(
-                    10,
-                    (index) => ListTile(
-                      leading: Icon(Icons.star_border), // generic icon
-                      title: Text('Menu Item ${index + 1}'),
-                      onTap: () {
-                        setState(() {
-                          _isDrawerMenuOpen = false;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+            child: DrawerMenu(
+              onClose: () {
+                setState(() {
+                  _isDrawerMenuOpen = false;
+                });
+              },
             ),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Essential for > 3 items
-        currentIndex: _isDrawerMenuOpen ? 0 : _selectedIndex, // Highlight Menu if open, else the selected page
+        type: BottomNavigationBarType.fixed,
+        // Essential for > 3 items
+        currentIndex: _isDrawerMenuOpen ? 0 : _selectedIndex,
+        // Highlight Menu if open, else the selected page
         selectedItemColor: Colors.deepPurple,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Page 1',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Page 2',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Page 3',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Page 4',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Page 1'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Page 2'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Page 3'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Page 4'),
         ],
       ),
     );
